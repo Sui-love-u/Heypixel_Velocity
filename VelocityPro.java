@@ -14,18 +14,15 @@ import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 
+@ModuleInfo(name = "Velocity", category = Category.COMBAT)
 public class VelocityPro extends Module {
-    public final ModeValue mode = new ModeValue("Mode", "模式", new String[]{"GrimReduce"}, "GrimReduce");
-    public final ModeValue grimReduceMode = (ModeValue) new ModeValue("GrimReduce Mode", new String[]{"OneTime", "PerTick"}, "PerTick").setVisibility(() -> mode.is("GrimReduce"));
-    public final NumberValue attacks = (NumberValue) new NumberValue("Attack Count", 2, 1, 5, 1).setVisibility(() -> mode.is("GrimReduce"));
+    public final ModeValue mode = new ModeValue("Mode", "GrimReduce", "GrimReduce");
+    public final ModeValue grimReduceMode = new ModeValue("GrimReduce Mode", "PreTick", "OneTime","PerTick");
+    public final NumberValue attacks = new NumberValue("Attack Count", 2, 1, 5, 1);
 
-    private Entity targetEntity;
+    private Entity target;
     private boolean velocityInput = false;
     private int attackQueue = 0;
-
-    public VelocityPro() {
-        super("VelocityPro", Category.COMBAT);
-    }
 
     @Override
     public void onDisable() {
